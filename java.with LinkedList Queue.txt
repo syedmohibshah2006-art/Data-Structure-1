@@ -1,0 +1,100 @@
+public class LinkedListQueue {
+
+    // Node of the linked list
+    private static class Node {
+        int data;
+        Node next;
+
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    private Node front;   // remove from here
+    private Node rear;    // add here
+    private int size;
+
+    public LinkedListQueue() {
+        front = null;
+        rear = null;
+        size = 0;
+    }
+
+    // Add an element at the rear (insert at tail)
+    public void enqueue(int value) {
+        Node newNode = new Node(value);
+        if (isEmpty()) {
+            front = newNode;
+            rear = newNode;
+        } else {
+            rear.next = newNode;
+            rear = newNode;
+
+        }
+        size++;
+    }
+
+    // Remove and return the front element (delete head)
+    public int dequeue() {
+        if (isEmpty()) {
+            System.out.println("Queue Underflow");
+            return -1;
+        }
+        int value = front.data;
+        front = front.next;
+        if (front == null) {
+            rear = null;   // queue became empty
+        }
+        size--;
+        return value;
+    }
+
+    // Return the front element without removing it
+    public int peek() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty");
+            return -1;
+        }
+        return front.data;
+    }
+
+    public boolean isEmpty() {
+        return front == null;
+    }
+
+
+    public int size() {
+        return size;
+    }
+
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty");
+            return;
+        }
+        System.out.print("Queue (front to rear): ");
+        Node current = front;
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        LinkedListQueue queue = new LinkedListQueue();
+
+        queue.enqueue(10);
+        queue.enqueue(20);
+        queue.enqueue(30);
+        queue.display();                                    // 10 20 30
+
+        System.out.println("Peek: " + queue.peek());             // 10
+        System.out.println("Dequeued: " + queue.dequeue());      // 10
+        System.out.println("Size: " + queue.size());             // 2
+
+        queue.display();                                    // 20 30
+    }
+
+}
